@@ -1,0 +1,29 @@
+{
+  "name": "sports-party",
+  "version": "1.0.0",
+  "description": "Sports Party App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon api-gateway.js",
+    "start-server": "node api-gateway.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1vibho3/sports-party.git"
+  },
+  "author": "Vibho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1vibho3/sports-party/issues"
+  },
+  "homepage": "https://github.com/1vibho3/sports-party#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1",
+    "nodemon": "^3.1.1"
+  }
+}

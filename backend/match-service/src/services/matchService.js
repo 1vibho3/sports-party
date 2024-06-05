@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const ConnectDB = require('../config/db');
 const axios = require('axios');
 const Match = require('../models/matchModel');
 require('dotenv').config();
 
-const fetchMatchData = async () =>{
+exports.fetchMatchData = async () =>{
     try{
         const data = await axios.get(`https://${process.env.RAPIDAPI_HOST}/v3/fixtures`, {
             params: {
@@ -54,4 +55,13 @@ const fetchMatchData = async () =>{
     }
 };
 
-module.exports = {fetchMatchData};
+exports.getMatchData = async () =>{
+    try {
+        const matches = await Match.find({});
+        return matches;
+    }
+    catch(error){
+        console.log('Error ' + error);
+        throw errorResponsePlugin;
+    }
+}

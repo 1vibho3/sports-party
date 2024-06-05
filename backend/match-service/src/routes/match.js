@@ -1,8 +1,9 @@
 const express = require('express');
-const {fetchMatchDataController} = require('../controllers/matchController');
+const {fetchMatchDataController, getMatchController} = require('../controllers/matchController');
 
 const router = express.Router();
 
-router.get('/getMatch', fetchMatchDataController);
+router.get('/fetchMatch', fetchMatchDataController);
+router.get('/getMatch', getMatchController);
 
 module.exports = router;

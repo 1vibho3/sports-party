@@ -1,0 +1,87 @@
+/* MatchData.css */
+
+.match-data-container {
+    margin: 20px;
+    font-family: Helvetica, sans-serif;
+}
+
+.match-data-container h1 {
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.filters label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.filters select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.reset-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reset-button:hover {
+    background-color: #0056b3;
+}
+
+.match-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.match-list > li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1px;
+    margin-bottom: 1px;
+}
+
+.match-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.match-list li strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.match-item {
+    display: inline-flex;
+    padding: 10px;
+}
+
+.match-item-date{
+    display: inline-flex;
+    padding: 10px;
+    margin-left: 150px;
+}
+
+.match-item-venue{
+    display: inline-flex;
+    padding: 10px;
+    margin-left: 50px;
+}
+
+.team-logo{
+    width: 2.5rem;
+    height: 2.5rem;
+}

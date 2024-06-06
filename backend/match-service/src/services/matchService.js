@@ -23,7 +23,7 @@ exports.fetchMatchData = async () =>{
         
     //console.log(data.data.response[0].league.id);
         const matches = data.data.response;
-        Match.deleteMany({});
+        await Match.deleteMany({});
 
         for(const match of matches){
             console.log(`Saving match ${match.fixture.id}`);

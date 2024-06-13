@@ -12,7 +12,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("abc");
       const token = await authService.login(username, password);
+      console.log(token);
+      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+      const userID = tokenPayload.userId;
+
+      sessionStorage.setItem('userID', userID);
       navigate('/getMatch');
     } catch (error) {
       setError(error.message);

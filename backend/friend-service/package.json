@@ -1,0 +1,21 @@
+{
+  "name": "friend-service",
+  "version": "1.0.0",
+  "description": "friend service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "vibho",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "moment": "^2.30.1",
+    "mongoose": "^8.4.1",
+    "nodemon": "^3.1.3"
+  }
+}

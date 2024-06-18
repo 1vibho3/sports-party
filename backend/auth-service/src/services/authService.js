@@ -1,17 +1,38 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const axios = require('axios');
+
 const SECRET_KEY = 'qwerty'
 
 const register = async ({ username, password, email }) => {
-    let existingUser = await User.findOne({ username });
-    if (existingUser) {
-        throw new Error('Username already exists');
+    try{
+        let existingUser = await User.findOne({ username });
+        if (existingUser) {
+            throw new Error('Username already exists');
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ username, password: hashedPassword, email });
+        const savedUser = await user.save();
+
+        const profileData = {
+            userId: savedUser._id,
+            username:username
+        };
+
+        try {
+            await axios.post('http://localhost:5000/userProfile/createUserProfile', profileData);
+        } catch (error) {
+            console.error('Error creating user profile:', error);
+            // Optionally, implement retry logic here or handle the error as needed
+        }
+
+        return savedUser;
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, password: hashedPassword, email });
-    await user.save();
-    return user;
+    catch (error) {
+        console.error('Error registering user:', error);
+        throw error;
+    }
 };
 
 const login = async ({ username, password }) => {

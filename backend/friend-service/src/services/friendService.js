@@ -37,9 +37,8 @@ exports.acceptFriendRequestService = async(requestData) => {
 exports.deleteFriendRequestService = async(deleteData) => {
     try{
         const{requestFromUserId, requestToUserId} = deleteData;
-        console.log(deleteData);
         const deleteRequest = await Friend.deleteOne(
-            {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId,  requestStatus: 'accepted'}
+            {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId,  requestStatus: 'pending'}
         );
         console.log(deleteRequest);
        // return deleteRequest;

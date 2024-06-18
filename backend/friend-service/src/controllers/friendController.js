@@ -1,8 +1,9 @@
-const {sendFriendRequestService, acceptFriendRequestService, getFriendListService, deleteFriendRequestService} = require('../services/friendService');
+const {sendFriendRequestService, acceptFriendRequestService, getFriendListService, deleteFriendRequestService, deleteFriendService} = require('../services/friendService');
 
 exports.sendFriendRequestController = async (req, res) => {
     try{
         const data = req.body;
+        console.log(data);
         const requestData = await sendFriendRequestService(data);
         res.status(200).json({success: true, data: requestData});
     }
@@ -40,7 +41,6 @@ exports.getFriendListController = async (req, res) => {
 exports.deleteFriendRequestController = async (req, res) => {
     try{
         const data = req.body;
-        console.log( data);
         const deleteData = await deleteFriendRequestService(data);
         res.status(200).json({success: true, data:deleteData});
     }
@@ -50,10 +50,10 @@ exports.deleteFriendRequestController = async (req, res) => {
     }
 };
 
-exports.deleteFreindController = async (req, res) =>{
+exports.deleteFriendController = async (req, res) =>{
     try{
         const data = req.body;
-        const deleteFriend = await deleteFriendRequestService(data);
+        const deleteFriend = await deleteFriendService(data);
         res.status(200).json({success: true, data: deleteFriend});
     }
     catch(error){

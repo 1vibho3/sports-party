@@ -15,8 +15,7 @@ const loginController = async (req, res) => {
     try {
         const { username, password } = req.body;
         const token = await login({ username, password });
-        console.log(token);
-        res.status(200).send('Login Successful' );
+        res.status(200).json({ token, message: 'Login Successful' });
     } catch (error) {
         console.error(error.message);
         res.status(401).json({ error: error.message });

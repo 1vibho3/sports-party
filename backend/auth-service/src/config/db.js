@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const connectDB = async () => {
+const ConnectDB = async () => {
     try {
         await mongoose.connect(process.env.AUTH_SERVICE_DB_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        });
-        console.log('User Service MongoDB connected');
+    });
+        console.log('Auth Service MongoDB connected');
     }
     catch (error) {
         console.error('MongoDB connection failed:', error);
@@ -14,4 +14,4 @@ const connectDB = async () => {
     }
 }
 
-module.exports = connectDB;
+module.exports = ConnectDB;

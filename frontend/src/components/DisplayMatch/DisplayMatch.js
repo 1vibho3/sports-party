@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {Link} from 'react-router-dom';
 import axios from '../../axios/axios';
 import './DisplayMatch.css';
 
@@ -102,12 +103,15 @@ const DisplayMatch = () => {
                                 </span>
                                 <span className="match-item">{match.awayTeamName}</span>
                                 <span className="match-item-venue">{match.matchVenueName}</span>
-                        
+                                <span>
+                                    <Link to = "/createParty">
+                                        <button>Invite to Party</button>
+                                    </Link>
+                                </span>
                         </li>
                     ))}
                 </ul>
-            </div>
-            
+            </div>         
         </div>
     );
 };

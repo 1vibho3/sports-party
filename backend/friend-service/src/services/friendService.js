@@ -4,6 +4,15 @@ exports.sendFriendRequestService = async (requestData) =>{
     try{
         
         const {requestFromUserId,requestToUserId} = requestData;
+        const existingRequest = await Friend.findOne({
+            requestFromUserId: requestFromUserId,
+            requestToUserId: requestToUserId
+        });
+        
+        if(existingRequest){
+            console.log("Friend request already exist");
+            return{message: 'Friend requewst already sent'};
+        }
         const friendRequest = new Friend({requestFromUserId: requestFromUserId, 
                                             requestToUserId: requestToUserId, 
                                             requestStatus: 'pending', createdAt: Date.now()})
@@ -34,17 +43,34 @@ exports.acceptFriendRequestService = async(requestData) => {
     }
 };
 
-exports.deleteFriendRequestService = async(deleteData) => {
+exports.getFriendRequestService = async(userId) => {
     try{
-        const{requestFromUserId, requestToUserId} = deleteData;
-        const deleteRequest = await Friend.deleteOne(
-            {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId,  requestStatus: 'pending'}
+        const {requestToUserId} = userId;
+        const friendRequests = await Friend.find({requestToUserId: requestToUserId}).populate('requestToUserId');
+        return friendRequests;
+    }catch(error){
+        console.log('Error getting friend requests');
+        throw error;
+    }
+}
+
+exports.getFriendRequestStatusService = async(requestData) => {
+    try{
+        const{requestFromUserId, requestToUserId} = requestData;
+        console.log(requestData);
+        const requestStatus = await Friend.findOne(
+                {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId}
         );
-        console.log(deleteRequest);
-       // return deleteRequest;
+        console.log(requestStatus);
+        if (!requestStatus) {
+            console.log('No request found');
+            return { requestStatus: 'No Request Found' };
+       }
+
+        return requestStatus;
     }
     catch(error){
-        console.log('Error deleting friend request');
+        console.log('Error fetching friend request status');
         throw error;
     }
 };
@@ -63,6 +89,21 @@ exports.getFriendListService = async(userId) => {
     }
     catch(error){
         console.log('Error fetching friend list');
+        throw error;
+    }
+};
+
+exports.deleteFriendRequestService = async(deleteData) => {
+    try{
+        const{requestFromUserId, requestToUserId} = deleteData;
+        const deleteRequest = await Friend.deleteOne(
+            {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId,  requestStatus: 'pending'}
+        );
+        console.log(deleteRequest);
+       // return deleteRequest;
+    }
+    catch(error){
+        console.log('Error deleting friend request');
         throw error;
     }
 };

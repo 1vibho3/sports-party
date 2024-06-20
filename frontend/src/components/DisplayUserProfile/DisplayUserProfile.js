@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '../../axios/axios';
+import Navbar from '../Navbar/Navbar';
 
 const UserProfile = () => {
     const { userId } = useParams();
@@ -13,8 +14,17 @@ const UserProfile = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
-                const response = await axios.get(`/userProfile/getUser/${userId}`);
+                const token = sessionStorage.getItem('token'); 
+                if (!token) {
+                    throw new Error('No token found in sessionStorage');
+                }
+                const response = await axios.get(`/userProfile/getUser/${userId}`,{
+                    headers: {
+                        Authorization: `Bearer ${token}`  // Include token in the request header
+                    }
+            });
                 setUserProfile(response.data.data);
+                await fetchRequestStatus();
             } catch (err) {
                 setError('Error fetching user profile');
             } finally {
@@ -25,17 +35,26 @@ const UserProfile = () => {
         fetchUserProfile();
     }, [userId]);
 
+    const fetchRequestStatus = async () => {
+        try {
+            const response = await axios.get(`/friends/getFriendRequestStatus/${loggedInUserId}/${userId}`);
+            console.log(response);
+            const status = response.data.data.requestStatus; // Adjust according to your API response structure
+            setRequestStatus(status);
+        } catch (err) {
+            console.log('Error fetching request status:', err);
+        }
+    };
+
     const handleRequestClick = async () => {
         try{
             if(requestStatus === "Send Request"){
                 const payload = {requestFromUserId: loggedInUserId, requestToUserId: userId};
-                console.log(payload);
                 const response = await axios.post(`/friends/sendRequest/`, payload);
-                setRequestStatus("Pending");
+                setRequestStatus("pending");
             }
-            else if(requestStatus === "Pending"){
+            else if(requestStatus === "pending"){
                 const payload = {requestFromUserId: loggedInUserId, requestToUserId: userId};
-                console.log(payload);
                 const response = await axios.delete(`/friends/deleteRequest/`, {data:payload});
                 setRequestStatus("Send Request");
             }
@@ -56,12 +75,15 @@ const UserProfile = () => {
 
     return (
         <div>
+            <Navbar/>
             {userProfile ? (
                 <div>
                     <h1>{userProfile.username}</h1>
                     <p>User ID: {userProfile.userId}</p>
                     <p>Friends: {userProfile.friends.join(', ') || 'No friends listed'}</p>
-                    <button type="button" onClick ={handleRequestClick}>{requestStatus}</button>
+                    {(userProfile.userId != loggedInUserId && 
+                        <button type="button" onClick ={handleRequestClick}>{requestStatus}</button>
+                    )}
                 </div>
             ) : (
                 <p>User profile not found.</p>

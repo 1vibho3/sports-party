@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import axios from '../../axios/axios';
+import Navbar from '../Navbar/Navbar';
 
 const SearchUsers = () => {
 
@@ -8,10 +9,13 @@ const SearchUsers = () => {
 
     const handleSearch = async (queryString) => {
         try{
-            const response = await axios.get(`/userProfile/getUsers?query=${queryString}`);
-            console.log(response);
-            console.log(response.data.data);
-            
+            const token = sessionStorage.getItem('token'); 
+            const response = await axios.get(`/userProfile/getUsers?query=${queryString}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`  // Include token in the request header
+                }
+        });
+            console.log('Response:', response.data);  // Debugging line            
             setUsers(response.data.data);
         }
         catch(err){
@@ -22,6 +26,7 @@ const SearchUsers = () => {
 
     return (
         <div>
+            <Navbar />
             <h1>User Search App</h1> 
             <SearchBar onSearch={handleSearch} />
         </div>

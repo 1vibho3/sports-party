@@ -27,9 +27,7 @@ exports.getUserController = async (req, res) => {
 exports.getUserProfileController = async (req, res) => {
     try{
         const data = req.params.userId;
-        console.log(data);
         const userData = await getUserProfileService(data);
-        console.log(userData);
         res.status(200).json({success: true, data: userData});
     }
     catch(error){

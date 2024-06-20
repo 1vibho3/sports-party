@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const axios = require('axios');
 
-const SECRET_KEY = 'qwerty'
-
 const register = async ({ username, password, email }) => {
     try{
         let existingUser = await User.findOne({ username });
@@ -47,7 +45,7 @@ const login = async ({ username, password }) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.AUTH_SERVICE_JWT_SECRET, { expiresIn: '1h' });
-    console.log(token);
+   // console.log(token);
     return token;
 };
 

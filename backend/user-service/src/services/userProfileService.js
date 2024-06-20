@@ -27,7 +27,6 @@ exports.getUserService = async (query) => {
 exports.getUserProfileService = async (userId) => {
     try{
         const user = await UserProfile.findOne({userId: userId});
-        console.log(user);
         return user;
     }
     catch(error){

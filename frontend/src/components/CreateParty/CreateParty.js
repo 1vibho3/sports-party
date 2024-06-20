@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from '../../axios/axios';
-
+import Navbar from '../Navbar/Navbar';
 const CreateParty = () => {
   const [partyData, setPartyData] = useState({
     partyName: '',
@@ -36,6 +36,7 @@ const CreateParty = () => {
 
   return (
     <div>
+      <Navbar />
       <h2>Create a Party</h2>
       <form onSubmit={handleSubmit}>
         <div>

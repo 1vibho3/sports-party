@@ -14,6 +14,7 @@ const Login = () => {
     try {
       console.log("abc");
       const token = await authService.login(username, password);
+      sessionStorage.setItem('token', token);
       console.log(token);
       const tokenPayload = JSON.parse(atob(token.split('.')[1]));
       const userID = tokenPayload.userId;

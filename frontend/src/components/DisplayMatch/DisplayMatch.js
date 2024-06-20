@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
 import axios from '../../axios/axios';
 import './DisplayMatch.css';
+import Navbar from '../Navbar/Navbar';
 
 const DisplayMatch = () => {
     const [matches, setMatches] = useState([]);
@@ -48,6 +49,7 @@ const DisplayMatch = () => {
 
     return (
         <div className="match-data-container">
+            <Navbar/>
             <div className="filters">
                 <label>
                     Match Day:

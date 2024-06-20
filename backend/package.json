@@ -6,7 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon api-gateway.js",
-    "start-server": "node api-gateway.js"
+    "start:api-gateway": "npm start",
+    "start:auth-service": "cd auth-service && npm start",
+    "start:user-service": "cd user-service && npm start",
+    "start:match-service": "cd match-service && npm start",
+    "start:party-service": "cd party-service && npm start",
+    "start:friend-service": "cd friend-service && npm start",
+    "start:all": "concurrently \"npm run start:api-gateway\" \"npm run start:auth-service\" \"npm run start:user-service\" \"npm run start:match-service\" \"npm run start:party-service\" \"npm run start:friend-service\""
   },
   "repository": {
     "type": "git",
@@ -26,5 +32,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.1",
     "nodemon": "^3.1.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

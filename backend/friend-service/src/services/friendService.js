@@ -27,10 +27,10 @@ exports.sendFriendRequestService = async (requestData) =>{
 
 exports.acceptFriendRequestService = async(requestData) => {
     try{
-        const{requestFromUserId, requestToUserId} = requestData;
+        const{_id} = requestData;
        // console.log(requestData);
         const friendRequest = await Friend.findOneAndUpdate(
-            {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId, requestStatus: 'pending'},
+            {_id: _id, requestStatus: 'pending'},
             {requestStatus: 'accepted', acceptedAt: Date.now()},
             {new: true}
         );
@@ -46,7 +46,8 @@ exports.acceptFriendRequestService = async(requestData) => {
 exports.getFriendRequestService = async(userId) => {
     try{
         const {requestToUserId} = userId;
-        const friendRequests = await Friend.find({requestToUserId: requestToUserId}).populate('requestToUserId');
+        const friendRequests = await Friend.find({  requestToUserId: requestToUserId,
+            requestStatus: 'pending' })
         return friendRequests;
     }catch(error){
         console.log('Error getting friend requests');
@@ -57,16 +58,13 @@ exports.getFriendRequestService = async(userId) => {
 exports.getFriendRequestStatusService = async(requestData) => {
     try{
         const{requestFromUserId, requestToUserId} = requestData;
-        console.log(requestData);
         const requestStatus = await Friend.findOne(
-                {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId}
+                {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId}, 'requestStatus'
         );
-        console.log(requestStatus);
         if (!requestStatus) {
             console.log('No request found');
             return { requestStatus: 'No Request Found' };
        }
-
         return requestStatus;
     }
     catch(error){

@@ -6,6 +6,7 @@ import DisplayMatch from './components/DisplayMatch/DisplayMatch';
 import CreateParty from './components/CreateParty/CreateParty';
 import SearchUsers from './components/SearchUsers/SearchUsers';
 import DisplayUserProfile from './components/DisplayUserProfile/DisplayUserProfile';
+import DisplayFriendRequests from './components/DisplayFriendRequests/DisplayFriendRequests';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/createParty" element={ <CreateParty />} />
           <Route path="/searchUsers" element={<SearchUsers />} />
           <Route path="/getUserProfile/:userId" element={<DisplayUserProfile />} />
+          <Route path="/getFriendRequests" element={<DisplayFriendRequests/>} />
         </Routes>
       </div>
     </Router>

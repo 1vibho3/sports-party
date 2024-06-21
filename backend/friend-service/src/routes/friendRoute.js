@@ -15,7 +15,7 @@ router.post('/acceptRequest', acceptFriendRequestController);
 router.get('/getFriends', getFriendListController);
 router.get('/getFriendRequestStatus/:requestFromUserId/:requestToUserId', getFriendRequestStatusController)
 router.delete('/deleteRequest', deleteFriendRequestController);
-router.delete('/getRequest', getFriendRequestController);
+router.get('/getRequest/:requestToUserId', getFriendRequestController);
 router.delete('/deleteFriend', deleteFriendController);
 
 module.exports = router;

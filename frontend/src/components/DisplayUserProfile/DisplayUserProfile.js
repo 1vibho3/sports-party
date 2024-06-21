@@ -38,9 +38,13 @@ const UserProfile = () => {
     const fetchRequestStatus = async () => {
         try {
             const response = await axios.get(`/friends/getFriendRequestStatus/${loggedInUserId}/${userId}`);
-            console.log(response);
-            const status = response.data.data.requestStatus; // Adjust according to your API response structure
-            setRequestStatus(status);
+           
+            const status = response.data.data; // Adjust according to your API response structure
+            console.log(status);
+            if(status === "pending")
+                setRequestStatus("pending");
+            else    
+                setRequestStatus("Send Request");
         } catch (err) {
             console.log('Error fetching request status:', err);
         }

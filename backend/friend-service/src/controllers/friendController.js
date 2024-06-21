@@ -32,7 +32,7 @@ exports.acceptFriendRequestController = async (req, res) => {
 
 exports.getFriendRequestController = async (req, res) => {
     try{
-        const requestToUserId = req.body;
+        const requestToUserId = req.params;
         //console.log(requestFromUserId);
         const requestData = await getFriendRequestService(requestToUserId);
         //console.log(requestData);
@@ -63,10 +63,10 @@ exports.getFriendRequestStatusController = async (req, res) => {
             requestFromUserId: requestFromUserId,
             requestToUserId: requestToUserId
         };
-        console.log(requestData);
+       //console.log(requestData);
         const requestStatus = await getFriendRequestStatusService(requestData);
-       // console.log(requestStatus);
-        res.status(200).json({success: true, data: requestStatus});
+       //console.log(requestStatus);
+        res.status(200).json({success: true, data: requestStatus.requestStatus});
     }
     catch(error){
         res.status(500).json({success: false, message:'Error fetching friend requst status'})

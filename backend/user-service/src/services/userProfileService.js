@@ -35,3 +35,51 @@ exports.getUserProfileService = async (userId) => {
     }
 };
 
+exports.addFriendService = async (data) => {
+    try{
+        const {requestFromUserId, requestToUserId} = data;
+
+         await  UserProfile.findOneAndUpdate(
+            { userId: requestFromUserId },
+            {   $addToSet: { friends: requestToUserId }
+            },
+            { new: true , timeout: false}
+        );
+
+         await  UserProfile.findOneAndUpdate(
+            { userId: requestToUserId },
+            {   $addToSet: { friends: requestFromUserId }
+            },
+            { new: true , timeout: false}
+        );
+    }
+    catch(error){
+        console.log('Error addid friend');
+        throw error;
+    }
+};
+
+exports.deleteFriendService = async (data) => {
+    try{
+        const {requestFromUserId, requestToUserId} = data;
+
+         await  UserProfile.findOneAndUpdate(
+            { userId: requestFromUserId },
+            {   $pull: { friends: requestToUserId }
+            },
+            { new: true , timeout: false}
+        );
+
+         await  UserProfile.findOneAndUpdate(
+            { userId: requestToUserId },
+            {   $pull: { friends: requestFromUserId }
+            },
+            { new: true , timeout: false}
+        );
+    }
+    catch(error){
+        console.log('Error addid friend');
+        throw error;
+    }
+};
+

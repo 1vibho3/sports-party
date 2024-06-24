@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const ConnectDB = async () => {
     try {
         await mongoose.connect(process.env.AUTH_SERVICE_DB_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
     });
         console.log('Auth Service MongoDB connected');
     }

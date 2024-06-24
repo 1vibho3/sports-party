@@ -5,7 +5,7 @@ const userProfileSchema =  new mongoose.Schema({
     username: {type: String, required:true},
     bio: {type: String},
     favoriteTeam: {type: String},
-    friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'Friend'}]
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Friend'}]
 
     
 });

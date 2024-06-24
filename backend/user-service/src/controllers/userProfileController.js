@@ -1,4 +1,4 @@
-const {createUserProfileService, getUserService, getUserProfileService} = require('../services/userProfileService');
+const {createUserProfileService, getUserService, getUserProfileService, addFriendService, deleteFriendService} = require('../services/userProfileService');
 
 exports.createUserProfileController = async (req, res) => {
     try{
@@ -34,3 +34,27 @@ exports.getUserProfileController = async (req, res) => {
         res.status(500).json({success: false, message:'Error fetching user'})
     }
 };
+
+exports.addFriendController = async (req, res) => {
+    try{
+        const data = req.body;
+        console.log(data);
+        const addFriendData = await addFriendService(data);
+        res.status(200).json({success: true, data: addFriendData});
+    }
+    catch(error){
+        res.status(500).json({success: false, message:'Error adding freind'});
+    }
+}
+
+exports.deleteFriendController = async (req, res) => {
+    try{
+        const data = req.body;
+        console.log(data);
+        const addFriendData = await deleteFriendService(data);
+        res.status(200).json({success: true, data: addFriendData});
+    }
+    catch(error){
+        res.status(500).json({success: false, message:'Error deleting freind'});
+    }
+}

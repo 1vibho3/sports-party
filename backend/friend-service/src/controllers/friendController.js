@@ -1,7 +1,8 @@
 const {sendFriendRequestService, 
         acceptFriendRequestService, 
         getFriendListService, 
-        deleteFriendRequestService, 
+        deleteFriendRequestService,
+        deleteFriendRequestByRequestIdService, 
         deleteFriendService, 
         getFriendRequestService,
         getFriendRequestStatusService} = require('../services/friendService');
@@ -20,9 +21,9 @@ exports.sendFriendRequestController = async (req, res) => {
 exports.acceptFriendRequestController = async (req, res) => {
     try{
         const data = req.body;
-        console.log(data);
+       // console.log(data);
         const requestData = await acceptFriendRequestService(data);
-        console.log(requestData);
+        //console.log(requestData);
         res.status(200).json({success: true, data: requestData});
     }
     catch(error){
@@ -76,7 +77,21 @@ exports.getFriendRequestStatusController = async (req, res) => {
 exports.deleteFriendRequestController = async (req, res) => {
     try{
         const data = req.body;
+        console.log(data);
         const deleteData = await deleteFriendRequestService(data);
+        res.status(200).json({success: true, data:deleteData});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({success:false, message:'Error deleting freind request'});
+    }
+};
+
+exports.deleteFriendRequestByRequestIdController = async (req, res) => {
+    try{
+        const data = req.body;
+        console.log(data);
+        const deleteData = await deleteFriendRequestByRequestIdService(data);
         res.status(200).json({success: true, data:deleteData});
     }
     catch(error){

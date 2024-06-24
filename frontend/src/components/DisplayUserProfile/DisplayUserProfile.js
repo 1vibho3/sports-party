@@ -43,7 +43,9 @@ const UserProfile = () => {
             console.log(status);
             if(status === "pending")
                 setRequestStatus("pending");
-            else    
+            else if (status === "accepted")
+                setRequestStatus("Unfriend");
+            else
                 setRequestStatus("Send Request");
         } catch (err) {
             console.log('Error fetching request status:', err);
@@ -60,6 +62,11 @@ const UserProfile = () => {
             else if(requestStatus === "pending"){
                 const payload = {requestFromUserId: loggedInUserId, requestToUserId: userId};
                 const response = await axios.delete(`/friends/deleteRequest/`, {data:payload});
+                setRequestStatus("Send Request");
+            }
+            else if(requestStatus === "Unfriend"){
+                const payload = { requestFromUserId: loggedInUserId, requestToUserId: userId };
+                const response = await axios.delete(`/friends/deleteFriend/`, { data: payload });
                 setRequestStatus("Send Request");
             }
         }

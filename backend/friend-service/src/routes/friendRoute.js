@@ -3,7 +3,8 @@ const express = require('express');
 const { sendFriendRequestController, 
         acceptFriendRequestController, 
         getFriendListController, 
-        deleteFriendRequestController, 
+        deleteFriendRequestController,
+        deleteFriendRequestByRequestIdController,
         deleteFriendController, 
         getFriendRequestController, 
         getFriendRequestStatusController} = require('../controllers/friendController');
@@ -15,6 +16,7 @@ router.post('/acceptRequest', acceptFriendRequestController);
 router.get('/getFriends', getFriendListController);
 router.get('/getFriendRequestStatus/:requestFromUserId/:requestToUserId', getFriendRequestStatusController)
 router.delete('/deleteRequest', deleteFriendRequestController);
+router.delete('/deleteRequestByRequestId', deleteFriendRequestByRequestIdController);
 router.get('/getRequest/:requestToUserId', getFriendRequestController);
 router.delete('/deleteFriend', deleteFriendController);
 

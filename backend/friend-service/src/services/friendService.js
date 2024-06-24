@@ -1,26 +1,34 @@
 const Friend = require('../models/friendModel');
+const UserProfile = require('../../../user-service/src/models/userProfile');
+const axios = require('axios');
+
+const mongoose = require('mongoose');
 
 exports.sendFriendRequestService = async (requestData) =>{
     try{
         
         const {requestFromUserId,requestToUserId} = requestData;
         const existingRequest = await Friend.findOne({
-            requestFromUserId: requestFromUserId,
-            requestToUserId: requestToUserId
+            $or: [
+                { requestFromUserId: requestFromUserId, requestToUserId: requestToUserId },
+                { requestFromUserId: requestToUserId, requestToUserId: requestFromUserId }
+            ]
         });
         
         if(existingRequest){
             console.log("Friend request already exist");
             return{message: 'Friend requewst already sent'};
         }
+
         const friendRequest = new Friend({requestFromUserId: requestFromUserId, 
                                             requestToUserId: requestToUserId, 
                                             requestStatus: 'pending', createdAt: Date.now()})
-        console.log(friendRequest);
-        return friendRequest.save();
+      console.log(friendRequest);
+       const friend = await friendRequest.save();
+        return friendRequest;
     }
     catch(error){
-        console.log('Error sending friend request');
+        console.log('Error sending friend request', error);
         throw error;
     }
 }
@@ -34,11 +42,20 @@ exports.acceptFriendRequestService = async(requestData) => {
             {requestStatus: 'accepted', acceptedAt: Date.now()},
             {new: true}
         );
-       // console.log(friendRequest);
+        
+
+        const { requestFromUserId, requestToUserId } = friendRequest;
+
+        try {
+            await axios.post('http://localhost:5000/userProfile/addFriend', friendRequest);
+        } catch (error) {
+            console.error('Error adding friend:', error);
+        }
+
         return friendRequest;
     }
     catch(error){
-        console.log('Error accepting friend request');
+        console.log('Error accepting friend request', error);
         throw error;
     }
 };
@@ -58,9 +75,12 @@ exports.getFriendRequestService = async(userId) => {
 exports.getFriendRequestStatusService = async(requestData) => {
     try{
         const{requestFromUserId, requestToUserId} = requestData;
-        const requestStatus = await Friend.findOne(
-                {requestFromUserId: requestFromUserId, requestToUserId: requestToUserId}, 'requestStatus'
-        );
+        const requestStatus = await Friend.findOne({
+            $or: [
+                { requestFromUserId, requestToUserId },
+                { requestFromUserId: requestToUserId, requestToUserId: requestFromUserId }
+            ]}, 'requestStatus'
+    );
         if (!requestStatus) {
             console.log('No request found');
             return { requestStatus: 'No Request Found' };
@@ -106,13 +126,34 @@ exports.deleteFriendRequestService = async(deleteData) => {
     }
 };
 
+exports.deleteFriendRequestByRequestIdService = async(deleteData) => {
+    try{
+        const{_id} = deleteData;
+        const deleteRequest = await Friend.deleteOne(
+            {_id:_id}
+        );
+    }
+    catch(error){
+        console.log('Error deleting friend request');
+        throw error;
+    }
+};
+
 exports.deleteFriendService = async (deleteData) => {
     try{
         const{requestFromUserId, requestToUserId} = deleteData;
         const deleteFriend = await Friend.deleteOne({
-            requestFromUserId: requestFromUserId, requestToUserId: requestToUserId, requestStatus: 'accepted'
+            $or: [
+                { requestFromUserId, requestToUserId, requestStatus: 'accepted' },
+                { requestFromUserId: requestToUserId, requestToUserId: requestFromUserId, requestStatus: 'accepted' }
+            ]
         });
-        console.log(deleteFriend);
+        
+        try {
+            await axios.post('http://localhost:5000/userProfile/deleteFriend', deleteData);
+        } catch (error) {
+            console.error('Error deleting friend', error);
+        }
     }
     catch(error){
         console.log("Error deleting friend");

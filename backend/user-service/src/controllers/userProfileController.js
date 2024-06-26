@@ -1,4 +1,11 @@
-const {createUserProfileService, getUserService, getUserProfileService, addFriendService, deleteFriendService} = require('../services/userProfileService');
+const {createUserProfileService, 
+    getUserService, 
+    getUserProfileService, 
+    addFriendService, 
+    deleteFriendService,
+    getUserFriendsService,
+    addPartyService,
+    getUserPartiesService} = require('../services/userProfileService');
 
 exports.createUserProfileController = async (req, res) => {
     try{
@@ -47,14 +54,47 @@ exports.addFriendController = async (req, res) => {
     }
 }
 
-exports.deleteFriendController = async (req, res) => {
+exports.addPartyController = async (req, res) => {
     try{
         const data = req.body;
+        console.log(data);
+        const addPartyData = await addPartyService(data);
+        res.status(200).json({success: true, data: addPartyData});
+    }
+    catch(error){
+        res.status(500).json({success: false, message:'Error adding partyy'});
+    }
+}
+
+exports.deleteFriendController = async (req, res) => {
+    try{
+        const data = req.body.data;
         console.log(data);
         const addFriendData = await deleteFriendService(data);
         res.status(200).json({success: true, data: addFriendData});
     }
     catch(error){
         res.status(500).json({success: false, message:'Error deleting freind'});
+    }
+}
+
+exports.getUserFriendsController = async (req, res) => {
+    try{
+        const userId = req.params.userId;
+        const response = await getUserFriendsService(userId);
+        res.status(200).json({success: true, data: response});
+    }
+    catch(error){
+        res.status(500).json({success: false, message:'Error getting friend'});
+    }
+}
+
+exports.getUserPartiesController = async (req, res) => {
+    try{
+        const userId = req.params.userId;
+        const parties = await getUserPartiesService(userId);
+        res.status(200).json({ success: true, data: parties });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error fetching user parties' });
     }
 }

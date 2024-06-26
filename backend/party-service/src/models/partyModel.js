@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
 
-const partyScehma = new mongoose.Schema({
+const partySchema = new mongoose.Schema({
 
-    partyId: String,
-    partyName: String,
+   // partyId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    partyName: {type: String, required: true},
     partyDate: Date,
     partyLocation: String,
-    hostUserId: String
+    hostUserId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    friends: [{
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserProfile'}
+    }]
 });
 
-const Party = mongoose.model('Party', partyScehma);
+const Party = mongoose.model('Party', partySchema);
 
 module.exports = Party;

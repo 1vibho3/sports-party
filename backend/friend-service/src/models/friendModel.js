@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const friendSchema = new mongoose.Schema({
-    requestFromUserId: String,
-    requestToUserId: String,
+    requestFromUserId: { type: mongoose.Schema.Types.ObjectId, duplicate: true, required: true },
+    requestToUserId: { type: mongoose.Schema.Types.ObjectId, required: true },
     requestStatus: String,
     createdAt: Date,
     accetptedAt: Date

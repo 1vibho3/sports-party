@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../axios/axios';
-import Navbar from '../Navbar/Navbar';
+// import '../Navbar/Navbar.css'; 
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
     const [queryString, setQueryString] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const navigate = useNavigate();
@@ -17,15 +17,19 @@ const SearchBar = () => {
                 const token = sessionStorage.getItem('token');
                 const response = await axios.get(`/userProfile/getUsers?query=${query}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`  // Include token in the request header
+                        Authorization: `Bearer ${token}`
                     }
-            });
+                });
                 setSuggestions(response.data.data);
             } catch (err) {
                 console.error('Error fetching users', err);
             }
         } else {
             setSuggestions([]);
+        }
+
+        if (onSearch) {
+            onSearch(query);
         }
     };
 
@@ -36,20 +40,23 @@ const SearchBar = () => {
     };
 
     return (
-        <div>
+        <div className="search-bar">
             <input 
-                type="text" 
+                type="search" 
                 placeholder="Search users..." 
                 value={queryString} 
                 onChange={handleInputChange} 
+                className="search-input"
             />
-            <ul>
-                {suggestions.map((user, index) => (
-                    <li key={index} onClick={() => handleSuggestionClick(user.userId)}>
-                        {user.username}
-                    </li>
-                ))}
-            </ul>
+            {suggestions.length > 0 && (
+                <ul className="suggestions-list">
+                    {suggestions.map((user, index) => (
+                        <li key={index} onClick={() => handleSuggestionClick(user.userId)} className="suggestion-item">
+                            {user.username}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

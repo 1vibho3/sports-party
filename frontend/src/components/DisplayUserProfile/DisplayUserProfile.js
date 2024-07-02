@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../../axios/axios'; // Adjust the path as per your project structure
 import Navbar from '../Navbar/Navbar';
+import './DisplayUserProfile.css'
 
 const UserProfile = () => {
     const { userId } = useParams();
@@ -89,6 +90,17 @@ const UserProfile = () => {
         navigate(`/getUserProfile/${userId}`);
     };
 
+    const handleCancelonClick = async (partyId) => {
+        try{
+            await axios.delete(`/party/deleteParty/${partyId}`);
+            fetchParties();
+        }
+        catch(error){
+            console.error('Error Cancelling Party', error);
+        }
+        
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -101,31 +113,39 @@ const UserProfile = () => {
         <div>
             <Navbar />
             {userProfile ? (
-                <div>
-                    <h1>{userProfile.username}</h1>
-                    <p>User ID: {userProfile.userId}</p>
-                    <p>Friends</p>
-                    <ul>
-                        {userProfile.friends.length > 0 ? userProfile.friends.map((friend, index) => (
-                            <li key={index} onClick={() => handleSuggestionClick(friend.userId)}>
-                                {friend.username}
-                            </li>
-                        )) : 'No friends listed'}
-                    </ul>
-                    <p>Parties</p>
-                    <ul>
-                        {parties.length > 0 ? parties.map((party, index) => (
-                            <li key={index}>
-                                <p>Party Name: {party.partyName}</p>
-                                <p>Date: {party.partyDate}</p>
-                                <p>Location: {party.partyLocation}</p>
-                                <p>Host: {party.hostUserId}</p>
-                            </li>
-                        )) : 'No parties listed'}
-                    </ul>
-                    {(userProfile.userId !== loggedInUserId &&
-                        <button type="button" onClick={handleRequestClick}>{requestStatus}</button>
-                    )}
+                <div className="container">
+                    <div className="user-profile">
+                        <h1>{userProfile.username}</h1>
+                        {(userProfile.userId !== loggedInUserId &&
+                            <button type="button" onClick={handleRequestClick}>{requestStatus}</button>
+                        )}
+                    </div>
+                    <div className="parties">
+                        <p>Parties</p>
+                        <ul>
+                            {parties.length > 0 ? parties.map((party, index) => (
+                                <li key={index}>
+                                    <p>{party.partyName}</p>
+                                    <p>{party.partyDate}</p>
+                                    <p>Location {party.partyLocation}</p>
+                                    <p>Host {party.hostUserId}</p>
+                                    {(userProfile.userId === loggedInUserId &&
+                                        <button onClick={() => handleCancelonClick(party._id)}>Cancel</button>
+                                    )}
+                                </li>
+                            )) : 'No parties listed'}
+                        </ul>
+                    </div>
+                    <div className="friends-list">
+                        <p>Friends</p>
+                        <ul>
+                            {userProfile.friends.length > 0 ? userProfile.friends.map((friend, index) => (
+                                <li key={index} onClick={() => handleSuggestionClick(friend.userId)}>
+                                    {friend.username}
+                                </li>
+                            )) : 'No friends listed'}
+                        </ul>
+                    </div>
                 </div>
             ) : (
                 <p>User profile not found.</p>

@@ -160,4 +160,30 @@ exports.getUserPartiesService = async (userId) => {
     }
 }
 
+exports.deletePartyService = async (data) => {
+    try{
+        const{_id, hostUserId, friends} = data;
+
+        console.log(hostUserId);
+        const response = await UserProfile.findOneAndUpdate(
+            {userId: hostUserId},
+            {$pull: {parties: _id}},
+            {new: true}
+        );
+
+        friends.map(async (friend) => {
+            await UserProfile.findOneAndUpdate(
+                {userId: friend.userId},
+                {$pull: {parties: _id}},
+                {new: true}
+            );
+        });
+        
+        return response;
+    }
+    catch(error){
+        console.log('error cancelling party', error);
+        throw error;
+    }
+}
 

@@ -2,16 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../axios/axios';
 import Navbar from '../Navbar/Navbar';
 import Select from 'react-select';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
+import './CreateParty.css';
 
 const CreateParty = () => {
-  const [partyData, setPartyData] = useState({
-    partyName: '',
-    partyDate: '',
-    partyLocation: '',
-    selectedUsers: [] // Initialize an empty array for selected user IDs
-  });
-  const [friends, setFriends] = useState([]); // Ensure friends is initialized as an empty array
+  const location = useLocation();
+  const navigate = useNavigate();
+  const {homeTeam, awayTeam, partyDate} = location.state || {};
 
+  const [partyData, setPartyData] = useState({
+    partyName: `${homeTeam} vs ${awayTeam}`,
+    partyDate: partyDate || '',
+    partyLocation: '',
+    selectedUsers: [] ,
+    note: ''
+  });
+  const [friends, setFriends] = useState([]); 
+  
+  
   // Fetch friends when component mounts
   useEffect(() => {
     const fetchFriends = async () => {
@@ -48,6 +56,8 @@ const CreateParty = () => {
         ...partyData,
         userId: userId
       };
+
+      console.log(partyDataWithUserId);
       const response = await axios.post('/party/createParty', partyDataWithUserId);
       console.log('Party created successfully:', response.data);
       // Reset form after successful submission
@@ -55,8 +65,10 @@ const CreateParty = () => {
         partyName: '',
         partyDate: '',
         partyLocation: '',
+        note: '',
         selectedUsers: [] // Clear selected users after submission
       });
+      navigate(`/getMatch`);
     } catch (error) {
       console.error('Error creating party:', error);
     }
@@ -65,22 +77,21 @@ const CreateParty = () => {
   return (
     <div>
       <Navbar />
-      <h2>Create a Party</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Event Name:</label>
-          <input type="text" name="partyName" value={partyData.partyName} onChange={handleChange} required />
+      <form onSubmit={handleSubmit} className ="party-form">
+        <div className = "form-item">
+          <label className = "form-item-label">Event</label>
+          <input type="text" name="partyName" className="form-input" value={partyData.partyName} onChange={handleChange} required />
         </div>
-        <div>
-          <label>Event Date:</label>
-          <input type="date" name="partyDate" value={partyData.partyDate} onChange={handleChange} required />
+        <div className = "form-item">
+          <label className = "form-item-label">Date</label>
+          <input type="text" name="partyDate" className="form-input" value={partyData.partyDate} onChange={handleChange} required />
         </div>
-        <div>
-          <label>Location:</label>
-          <input type="text" name="partyLocation" value={partyData.partyLocation} onChange={handleChange} required />
+        <div className = "form-item">
+          <label className = "form-item-label">Location:</label>
+          <input type="text" name="partyLocation" className="form-input" value={partyData.partyLocation} onChange={handleChange} required />
         </div>
-        <div>
-          <label>Select Users to Invite:</label>
+        <div className = "form-item">
+          <label className = "form-item-label">Select Users to Invite:</label>
           <Select
             isMulti
             options={friends}
@@ -88,7 +99,15 @@ const CreateParty = () => {
             value={friends.filter(friend => partyData.selectedUsers.includes(friend.value))}
           />
         </div>
-        <button type="submit">Create Party</button>
+        <div  className = "form-item">
+          <label className = "form-item-label">Note</label>
+          <input type="text" name="note"  className="form-input" value={partyData.note} onChange={handleChange} required />
+        </div>
+
+        <button type="submit" className="submit-button">Create Party</button>
+        <Link to="/getMatch">
+            <button className="cancel-button">Cancel</button>
+        </Link>
       </form>
     </div>
   );

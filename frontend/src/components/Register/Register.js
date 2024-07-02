@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import authService from '../../services/authService';
+import { Link } from 'react-router-dom'; 
+import './Register.css'
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -18,24 +20,26 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <button type="submit">Signup</button>
-      </form>
+    <div className='signup-page'>
+      <div className="signup-container">
+        <h2 className="signup-heading">Signup</h2>
+        {error && <p className="signup-error">{error}</p>}
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <label className="signup-label">
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="signup-input" placeholder='Username' />
+          </label>
+          <label className="signup-label">
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="signup-input" placeholder='Password' />
+          </label>
+          <label className="signup-label">
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="signup-input" placeholder='Email'/>
+          </label>
+          <button type="submit" className="signup-button">Signup</button>
+        </form>
+        <div className="login-link">
+          <p>Already have an account? <Link to="/">Login</Link></p>
+        </div>
+      </div>
     </div>
   );
 };

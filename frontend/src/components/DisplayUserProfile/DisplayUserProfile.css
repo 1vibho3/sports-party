@@ -1,0 +1,124 @@
+/* General styles */
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* User profile section */
+.user-profile {
+    flex: 1;
+    margin-right: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-profile h1 {
+    font-size: 24px;
+    color: #37003c;
+    margin-bottom: 10px;
+}
+
+.user-profile p {
+    font-size: 18px;
+    color: #37003c;
+    margin-bottom: 5px;
+}
+
+/* Friends list section */
+.friends-list {
+    flex: 0.5; /* Make this section leaner */
+    margin-left: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.friends-list p {
+    font-size: 18px;
+    color: #37003c;
+    margin-bottom: 10px;
+}
+
+.friends-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.friends-list li {
+    cursor: pointer;
+    padding: 5px 0;
+    color: #37003c;
+}
+
+.friends-list li:hover {
+    text-decoration: underline;
+    color: #be14ce;
+}
+
+/* Parties section */
+.parties {
+    flex: 2; /* Make this section wider */
+    margin: 0 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.parties p {
+    font-size: 18px;
+    color: #37003c;
+    margin-bottom: 10px;
+}
+
+.parties ul {
+    list-style: none;
+    padding: 0;
+}
+
+.parties li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #37003c;
+}
+
+.parties li p {
+    margin: 5px 0;
+}
+
+/* Button styles */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #37003c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #be14ce;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .user-profile,
+    .friends-list,
+    .parties {
+        margin: 10px 0;
+    }
+}

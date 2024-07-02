@@ -3,7 +3,7 @@ const axios = require('axios');
 
 exports.createPartyService = async (partyData) =>{
     try{
-        const {partyName, partyDate, partyLocation, userId: hostUserId, selectedUsers: friends} = partyData;
+        const {partyName, partyDate, partyLocation, userId: hostUserId, note, selectedUsers: friends} = partyData;
 
         const formattedFriends = friends.map(friendId => ({ userId: friendId }));
 
@@ -12,6 +12,7 @@ exports.createPartyService = async (partyData) =>{
             partyDate,
             partyLocation,
             hostUserId,
+            note,
             friends: formattedFriends
         });
 
@@ -20,6 +21,7 @@ exports.createPartyService = async (partyData) =>{
             partyDate: party.partyDate,
             partyLocation: party.partyLocation,
             hostUserId: party.hostUserId,
+            note: party.note,
             friends: party.friends.map(friend => friend.userId)
         }
 
@@ -44,6 +46,26 @@ exports.getPartyService = async (partyId) => {
     }
     catch(error){
         console.log('Error getting party', error);
+        throw error;
+    }
+}
+
+exports.deletePartyService = async (partyId) => {
+    try{
+        const party = await Party.findById({_id: partyId});
+        // Extract fields
+        const payload = {
+            _id: party._id,
+            hostUserId: party.hostUserId,
+            friends: party.friends
+        };
+        console.log(payload);
+        const response = Party.deleteOne({_id: partyId});
+        await axios.patch('http://localhost:5000/userProfile/deleteParty', payload);
+        return response;
+    }
+    catch(error){
+        console.log('Error deleting party', error);
         throw error;
     }
 }

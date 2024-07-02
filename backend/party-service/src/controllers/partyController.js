@@ -1,4 +1,4 @@
-const {createPartyService, getPartyService} = require('../services/partyService');
+const {createPartyService, getPartyService, deletePartyService} = require('../services/partyService');
 
 exports.createPartyController = async (req, res) =>{
     try {
@@ -19,5 +19,15 @@ exports.getPartyController = async (req, res) =>{
         res.status(200).json({ success: true, data: party });
     }catch(error){
         res.status(500).json({ success: false, error: 'Error fetching party data' });
+    }
+};
+
+exports.deletePartyController = async (req, res) =>{
+    try {
+        const partyId = req.params.partyId;
+        const party = await deletePartyService(partyId);
+        res.status(200).json({ success: true, data: party });
+    }catch(error){
+        res.status(500).json({ success: false, error: 'Error deleting party' });
     }
 };

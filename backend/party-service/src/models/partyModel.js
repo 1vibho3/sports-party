@@ -7,6 +7,7 @@ const partySchema = new mongoose.Schema({
     partyDate: Date,
     partyLocation: String,
     hostUserId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    note: {type:String},
     friends: [{
         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'UserProfile'}
     }]

@@ -46,7 +46,6 @@ exports.getUserProfileController = async (req, res) => {
 exports.addFriendController = async (req, res) => {
     try{
         const data = req.body;
-        console.log(data);
         const addFriendData = await addFriendService(data);
         res.status(200).json({success: true, data: addFriendData});
     }
@@ -69,7 +68,7 @@ exports.addPartyController = async (req, res) => {
 
 exports.deleteFriendController = async (req, res) => {
     try{
-        const data = req.body.data;
+        const data = req.body;
         console.log(data);
         const addFriendData = await deleteFriendService(data);
         res.status(200).json({success: true, data: addFriendData});

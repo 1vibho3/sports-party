@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.post('/createUserProfile', createUserProfileController);
 router.get('/getUsers', authenticateUser, getUserController);
-router.get('/getUser/:userId',authenticateUser, getUserProfileController);
+router.get('/getUser/:userId', getUserProfileController);
 router.post('/addFriend', addFriendController);
 router.post('/deleteFriend', deleteFriendController);
 router.get('/getUserFriends/:userId', getUserFriendsController);

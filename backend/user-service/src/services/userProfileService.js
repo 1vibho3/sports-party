@@ -69,6 +69,8 @@ exports.addFriendService = async (data) => {
 //delete added freinds
 exports.deleteFriendService = async (data) => {
     try{
+
+        console.log(data);
         const { requestFromUserId, requestToUserId } = data;
 
         const user1 = await UserProfile.findOne({ userId: requestFromUserId });
@@ -116,7 +118,6 @@ exports.addPartyService = async (data) => {
         const { _id, hostUserId, friends } = data;
 
         const hostUser = await UserProfile.findOne({userId: hostUserId});
-        console.log(hostUser);
         if(!hostUser){
             throw new Error('Host user profile not found');
         }
@@ -152,7 +153,6 @@ exports.getUserPartiesService = async (userId) => {
         const partyPromises = partyIds.map(partyId => axios.get(`http://localhost:5000/party/getParty/${partyId}`));
         const partyRepsones = await Promise.all(partyPromises);
         const parties = partyRepsones.map(response => response.data);
-        console.log(parties);
         return parties;
     } catch (error) {
         console.error('Error fetching user parties:', error);
@@ -163,8 +163,6 @@ exports.getUserPartiesService = async (userId) => {
 exports.deletePartyService = async (data) => {
     try{
         const{_id, hostUserId, friends} = data;
-
-        console.log(hostUserId);
         const response = await UserProfile.findOneAndUpdate(
             {userId: hostUserId},
             {$pull: {parties: _id}},

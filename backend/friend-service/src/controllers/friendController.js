@@ -6,11 +6,15 @@ const {sendFriendRequestService,
         deleteFriendService, 
         getFriendRequestService,
         getFriendRequestStatusService} = require('../services/friendService');
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:5006');
 
 exports.sendFriendRequestController = async (req, res) => {
     try{
         const data = req.body;
+        console.log(data);
         const requestData = await sendFriendRequestService(data);
+        
         res.status(200).json({success: true, data: requestData});
     }
     catch(error){
@@ -21,7 +25,7 @@ exports.sendFriendRequestController = async (req, res) => {
 exports.acceptFriendRequestController = async (req, res) => {
     try{
         const data = req.body;
-       // console.log(data);
+        //console.log(data);
         const requestData = await acceptFriendRequestService(data);
         //console.log(requestData);
         res.status(200).json({success: true, data: requestData});

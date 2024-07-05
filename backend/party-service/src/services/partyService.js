@@ -59,7 +59,6 @@ exports.deletePartyService = async (partyId) => {
             hostUserId: party.hostUserId,
             friends: party.friends
         };
-        console.log(payload);
         const response = Party.deleteOne({_id: partyId});
         await axios.patch('http://localhost:5000/userProfile/deleteParty', payload);
         return response;

@@ -23,8 +23,9 @@ const FriendRequest = () => {
 
     const handleAccept = async (_id) => {
         try {
-            const response = await axios.post(`/friends/acceptRequest/`, { _id });
-            console.log(response);
+            console.log(_id);
+            const response = await axios.post(`/friends/acceptRequest/`,  {_id });
+            //console.log(response);
             setFriendRequests(friendRequests.filter(request => request._id !== _id));
         } catch (err) {
             console.error('Error accepting friend request:', err);

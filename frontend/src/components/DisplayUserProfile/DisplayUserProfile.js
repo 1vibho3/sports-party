@@ -70,6 +70,7 @@ const UserProfile = () => {
         try {
             if (requestStatus === "Send Request") {
                 const payload = { requestFromUserId: loggedInUserId, requestToUserId: userId };
+                console.log(payload);
                 const response = await axios.post(`/friends/sendRequest/`, payload);
                 setRequestStatus("pending");
             } else if (requestStatus === "pending") {

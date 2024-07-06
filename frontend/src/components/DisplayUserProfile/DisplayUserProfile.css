@@ -29,9 +29,8 @@
     margin-bottom: 5px;
 }
 
-/* Friends list section */
 .friends-list {
-    flex: 0.5; /* Make this section leaner */
+    flex: 0.5;
     margin-left: 20px;
     background: white;
     padding: 20px;
@@ -96,18 +95,37 @@
 }
 
 /* Button styles */
-button {
-    padding: 10px 20px;
+.cancel-button {
     font-size: 16px;
     color: white;
     background-color: #37003c;
     border: none;
     border-radius: 4px;
+    text-align: center;
     cursor: pointer;
+    width: 100px;
+    height: 40px;
 }
 
-button:hover {
-    background-color: #be14ce;
+.cancel-button:hover {
+    background-color: #4a3b4d;
+}
+
+.user-profile .request-button {
+    font-size: 16px;
+    margin: 0px;
+    color: white;
+    background-color: #37003c;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    width: 80px;
+    height: 40px;
+}
+
+.user-profile .request-button:hover {
+    background-color: #4a3b4d;
 }
 
 /* Responsive styles */

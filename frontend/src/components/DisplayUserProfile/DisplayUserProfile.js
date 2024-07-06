@@ -37,6 +37,7 @@ const UserProfile = () => {
         };
 
         fetchUserProfile();
+        
     }, [userId]);
 
     const fetchParties = async () => {
@@ -118,7 +119,7 @@ const UserProfile = () => {
                     <div className="user-profile">
                         <h1>{userProfile.username}</h1>
                         {(userProfile.userId !== loggedInUserId &&
-                            <button type="button" onClick={handleRequestClick}>{requestStatus}</button>
+                            <button className ="request-button" type="button" onClick={handleRequestClick}>{requestStatus}</button>
                         )}
                     </div>
                     <div className="parties">
@@ -131,7 +132,7 @@ const UserProfile = () => {
                                     <p>Location {party.partyLocation}</p>
                                     <p>Host {party.hostUserId}</p>
                                     {(userProfile.userId === loggedInUserId &&
-                                        <button onClick={() => handleCancelonClick(party._id)}>Cancel</button>
+                                        <button className ="cancel-button" onClick={() => handleCancelonClick(party._id)}>Cancel</button>
                                     )}
                                 </li>
                             )) : 'No parties listed'}

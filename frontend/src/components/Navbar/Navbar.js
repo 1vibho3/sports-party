@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import './Navbar.css';
 import Notification from '../Notification/Notification';
+import DisplayFriendRequests from '../DisplayFriendRequests/DisplayFriendRequests';
 
 const Navbar = ({onSearch}) => {
     const loggedInUserId = sessionStorage.getItem('userID');
@@ -19,8 +20,8 @@ const Navbar = ({onSearch}) => {
                 <div className="navbar-search">
                     <SearchBar onSearch={onSearch} />
                 </div>
-                <li className="navbar-item">
-                    <Link to="/getFriendRequests">Requests</Link>
+                <li>
+                    <DisplayFriendRequests />
                 </li>
                 <li><Notification /></li>
                 <li className="navbar-item logout">

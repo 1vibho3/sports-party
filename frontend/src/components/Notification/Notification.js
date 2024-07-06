@@ -7,7 +7,6 @@ const socket = io('http://localhost:5006');
 
 const Notification = () => {
     const [notifications, setNotifications] = useState([]);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
         console.log('Component mounted');
@@ -28,16 +27,12 @@ const Notification = () => {
         };
     }, [userId]);
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(prevState => !prevState);
-    };
-
     return (
         <div className="notification-container">
-            <button onClick={toggleDropdown} className="dropdown-button">
+            <button className="dropdown-button">
                 Notifications {notifications.length > 0 && `(${notifications.length})`}
             </button>
-            <ul className="dropdown-menu" style={{ display: isDropdownOpen ? 'block' : 'none' }}>
+            <ul className="dropdown-menu">
                 {notifications.length === 0 ? (
                     <li className="dropdown-item">No notifications</li>
                 ) : (

@@ -3,6 +3,7 @@ import axios from '../../axios/axios';
 import Navbar from '../Navbar/Navbar';
 import Select from 'react-select';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
+import LocationPicker from '../LocationPicker/LocationPicker';
 import './CreateParty.css';
 
 const CreateParty = () => {
@@ -48,6 +49,10 @@ const CreateParty = () => {
     setPartyData({ ...partyData, selectedUsers: selectedOptions ? selectedOptions.map(option => option.value) : [] });
   };
 
+  const handleLocationChange = (location) => {
+    setPartyData({ ...partyData, partyLocation: location });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -88,7 +93,8 @@ const CreateParty = () => {
         </div>
         <div className = "form-item">
           <label className = "form-item-label">Location:</label>
-          <input type="text" name="partyLocation" className="form-input" value={partyData.partyLocation} onChange={handleChange} required />
+          <LocationPicker className = "form-location" onLocationChange={handleLocationChange} />
+          {/* <input type="text" name="partyLocation" className="form-input" value={partyData.partyLocation} onChange={handleChange} required /> */}
         </div>
         <div className = "form-item">
           <label className = "form-item-label">Select Users to Invite:</label>

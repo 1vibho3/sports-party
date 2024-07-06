@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axios/axios';
 import Navbar from '../Navbar/Navbar';
+import './DisplayFriendRequests.css'
 
 const FriendRequest = () => {
     const loggedInUserId = sessionStorage.getItem('userID');
@@ -46,22 +47,23 @@ const FriendRequest = () => {
     }
 
     return (
-        <div>
-            <Navbar />
-            <h2>Friend Requests</h2>
-            {friendRequests.length === 0 ? (
-                <p>No friend requests.</p>
+        <div className="notification-container">
+            <button className="dropdown-button">
+                Requests {friendRequests.length > 0 && `(${friendRequests.length})`}
+            </button>
+            <ul className="dropdown-menu">
+                {friendRequests.length === 0 ? (
+                    <li className="dropdown-item">No friend requests</li>
             ) : (
-                <ul>
-                    {friendRequests.map((request) => (
-                        <li key={request._id}>
-                            <span>{request.requestFromUserId}</span>
-                            <button onClick={() => handleAccept(request._id)}>Accept</button>
-                            <button onClick={() => handleReject(request._id)}>Reject</button>
+                    friendRequests.map((request) => (
+                        <li key={request._id} className="dropdown-item">
+                            <span>{request.requestFromUserName}</span>
+                            <button className="request-button"onClick={() => handleAccept(request._id)}>Accept</button>
+                            <button className="request-button"onClick={() => handleReject(request._id)}>Reject</button>
                         </li>
-                    ))}
-                </ul>
+                    ))
             )}
+            </ul>
         </div>
     );
 };

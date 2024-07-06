@@ -67,6 +67,42 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('inivitationtoparty', async (data) => {
+        try {
+            const notification = new Notification({
+                userId: data.userId,
+                message: data.message
+            });
+            await notification.save();
+
+            // Emit notification to the target user
+            const targetSocketId = users[data.userId];
+            if (targetSocketId) {
+                io.to(targetSocketId).emit('notification', notification);
+            }
+        } catch (error) {
+            console.log('Error saving notification:', error);
+        }
+    });
+
+    socket.on('cancelledparty', async (data) => {
+        try {
+            const notification = new Notification({
+                userId: data.userId,
+                message: data.message
+            });
+            await notification.save();
+
+            // Emit notification to the target user
+            const targetSocketId = users[data.userId];
+            if (targetSocketId) {
+                io.to(targetSocketId).emit('notification', notification);
+            }
+        } catch (error) {
+            console.log('Error saving notification:', error);
+        }
+    });
+
     socket.on('disconnect', () => {
         // Remove the disconnected user from the mapping
         for (let userId in users) {

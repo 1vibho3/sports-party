@@ -1,5 +1,7 @@
 const Party = require('../models/partyModel');
 const axios = require('axios');
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:5006');
 
 exports.createPartyService = async (partyData) =>{
     try{
@@ -31,6 +33,14 @@ exports.createPartyService = async (partyData) =>{
             console.error('Error adding party:', error);
         }
 
+        const user = await axios.get(`http://localhost:5000/userProfile/getUser/${party.hostUserId}`);
+        party.friends.map( (friend) => {
+            socket.emit('inivitationtoparty', {
+                userId: friend.userId,
+                message: `You have ${party.partyName} watch party invitation from ${user.data.data.username}`
+            });
+        });        
+
         
         return party;
     } catch (error){
@@ -61,6 +71,15 @@ exports.deletePartyService = async (partyId) => {
         };
         const response = Party.deleteOne({_id: partyId});
         await axios.patch('http://localhost:5000/userProfile/deleteParty', payload);
+
+        const user = await axios.get(`http://localhost:5000/userProfile/getUser/${party.hostUserId}`);
+        party.friends.map( (friend) => {
+            socket.emit('cancelledparty', {
+                userId: friend.userId,
+                message: `${user.data.data.username} has cancelled ${party.partyName} watch party`
+            });
+        }); 
+
         return response;
     }
     catch(error){

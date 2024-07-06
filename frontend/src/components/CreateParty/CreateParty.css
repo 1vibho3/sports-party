@@ -42,7 +42,7 @@
     box-sizing: border-box;
 }
 
-.form-input:hover {
+.form-input:hover, .form-location{
     border-color: #be14ce;
     outline: none;
 }

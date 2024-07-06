@@ -22,17 +22,21 @@ exports.sendFriendRequestService = async (requestData) =>{
             console.log("Friend request already exist");
             return{message: 'Friend requewst already sent'};
         }
+        const userFrom = await axios.get(`http://localhost:5000/userProfile/getUser/${requestFromUserId}`);
+        const userTo = await axios.get(`http://localhost:5000/userProfile/getUser/${requestToUserId}`);
+        
 
         const friendRequest = new Friend({requestFromUserId: requestFromUserId, 
                                             requestToUserId: requestToUserId, 
-                                            requestStatus: 'pending', createdAt: Date.now()})
+                                            requestFromUserName: userFrom.data.data.username,
+                                            requestToUserName: userTo.data.data.username,
+                                            requestStatus: 'pending', createdAt: Date.now()});
   
         const friend = await friendRequest.save();
 
-        const user = await axios.get(`http://localhost:5000/userProfile/getUser/${requestFromUserId}`);
         socket.emit('friendRequestSent', {
             userId: requestToUserId,
-            message: `You have a new friend request from ${user.data.data.username}`
+            message: `You have a new friend request from ${userFrom.data.data.username}`
         });
 
         return friendRequest;

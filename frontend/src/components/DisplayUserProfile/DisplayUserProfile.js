@@ -103,6 +103,11 @@ const UserProfile = () => {
         
     };
 
+    const formatDate = (date) => {
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        return new Date(date).toLocaleDateString('en-GB', options);
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -123,17 +128,22 @@ const UserProfile = () => {
                         )}
                     </div>
                     <div className="parties">
-                        <p>Parties</p>
+                        <p>My Watch Parties</p>
                         <ul>
                             {parties.length > 0 ? parties.map((party, index) => (
                                 <li key={index}>
+                                    <p>Hosted by {party.hostUserId == loggedInUserId ? "you" : (party.hostUserName)}</p>
                                     <p>{party.partyName}</p>
-                                    <p>{party.partyDate}</p>
+                                    <p>{formatDate(party.partyDate)}</p>
                                     <p>Location {party.partyLocation}</p>
-                                    <p>Host {party.hostUserId}</p>
-                                    {(userProfile.userId === loggedInUserId &&
-                                        <button className ="cancel-button" onClick={() => handleCancelonClick(party._id)}>Cancel</button>
-                                    )}
+                                    { party.hostUserId === loggedInUserId ? (
+                                        <button className ="party-action-button" onClick={() => handleCancelonClick(party._id)}>Cancel</button>
+                                    ) : (
+                                        <div>
+                                            <button className ="party-action-button" onClick={() => handleCancelonClick(party._id)}>Coming</button>
+                                            <button className ="party-action-button" onClick={() => handleCancelonClick(party._id)}>Not Coming</button>
+                                        </div>
+                                    ) }
                                 </li>
                             )) : 'No parties listed'}
                         </ul>

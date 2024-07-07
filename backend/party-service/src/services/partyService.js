@@ -8,12 +8,14 @@ exports.createPartyService = async (partyData) =>{
         const {partyName, partyDate, partyLocation, userId: hostUserId, note, selectedUsers: friends} = partyData;
 
         const formattedFriends = friends.map(friendId => ({ userId: friendId }));
-
+        const user = await axios.get(`http://localhost:5000/userProfile/getUser/${hostUserId}`);
+      
         const party = await Party.create({
             partyName,
             partyDate,
             partyLocation,
             hostUserId,
+            hostUserName: user.data.data.username,
             note,
             friends: formattedFriends
         });
@@ -23,6 +25,7 @@ exports.createPartyService = async (partyData) =>{
             partyDate: party.partyDate,
             partyLocation: party.partyLocation,
             hostUserId: party.hostUserId,
+            hostUserName: party.hostUserName,
             note: party.note,
             friends: party.friends.map(friend => friend.userId)
         }
@@ -33,7 +36,7 @@ exports.createPartyService = async (partyData) =>{
             console.error('Error adding party:', error);
         }
 
-        const user = await axios.get(`http://localhost:5000/userProfile/getUser/${party.hostUserId}`);
+        
         party.friends.map( (friend) => {
             socket.emit('inivitationtoparty', {
                 userId: friend.userId,

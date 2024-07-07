@@ -34,7 +34,7 @@ const Signup = () => {
           <label className="signup-label">
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="signup-input" placeholder='Email'/>
           </label>
-          <button type="submit" className="signup-button">Signup</button>
+          <button type="submit" className="signup-button">Sign up</button>
         </form>
         <div className="login-link">
           <p>Already have an account? <Link to="/">Login</Link></p>

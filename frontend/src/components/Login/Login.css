@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(270deg, #d2b5d4, #37003c);
+    background: #dddddd;
     background-size: 400% 400%;
     animation: gradient-animation 15s ease infinite;
   }
@@ -37,9 +37,9 @@
   }
   
   .login-heading {
-    color: #ffffff;
+    color: #37003c;
     font-size: 24px;
-    margin: 0;
+    margin-top: 30px;
   }
   
   /* Container styles */
@@ -49,15 +49,10 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 300px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  /* Heading styles */
-  .login-heading {
-    margin-bottom: 20px;
-    color: #37003c;
   }
   
   /* Error message styles */
@@ -71,6 +66,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 70px;
   }
   
   /* Label styles */
@@ -83,31 +79,41 @@
   .login-input {
     width: 100%;
     padding: 8px;
+    height: 40px;
     margin-top: 5px;
-    border: 2px solid #312132;
-    border-radius: 4px;
+    border: 1px solid #312132;
+    border-radius: 50px;
     box-sizing: border-box;
+  }
+
+  .login-input:hover {
+    border: 1px solid #be14ce;
+  }
+
+  .login-input:focus-visible {
+    border: 1px solid #be14ce;
   }
   
   /* Button styles */
   /* Button styles */
 .login-button {
-    padding: 10px;
     background-color: transparent; 
     color: #312132; /* Text color */
-    border: 2px solid #312132;
-    border-radius: 4px;
+    border: 1px solid #312132;
+    border-radius: 50px;
+    height: 40px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
   }
   
   .login-button:hover {
-    background-color: #312132; 
+    background-color: #be14ce; 
+    border: 1px solid #be14ce;
     color: white; 
   }
 
   .create-account-link {
-    margin-top: 10px;
+    margin-top: 120px;
     text-align: center;
   }
   

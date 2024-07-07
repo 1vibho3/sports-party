@@ -104,7 +104,7 @@ const DisplayMatch = () => {
                     </select>
                 </label>
                 <label>
-                    Home Team
+                    <span className="filter-label">Home Team</span>
                     <select value={homeTeamFilter} onChange={e => setHomeTeamFilter(e.target.value)} className="filters-select">
                         <option value="">All</option>
                         {hometeamOptions.map(team => (
@@ -113,7 +113,7 @@ const DisplayMatch = () => {
                     </select>
                 </label>
                 <label>
-                    Away Team
+                <span className="filter-label">Away Team</span>
                     <select value={awayTeamFilter} onChange={e => setAwayTeamFilter(e.target.value)} className="filters-select">
                         <option value="">All</option>
                         {awayteamOptions.map(team => (
@@ -122,7 +122,7 @@ const DisplayMatch = () => {
                     </select>
                 </label>
                 <label>
-                    Match Day
+                    <span className="filter-label">Match Day</span>
                     <select value={matchDayFilter} onChange={e => setMatchDayFilter(e.target.value)} className="filters-select">
                         <option value="">All</option>
                         {matchdayOptions.map(matchday => (

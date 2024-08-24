@@ -8,3 +8,22 @@
   - [Express](https://expressjs.com/)
   - [React](https://react.dev/)
   - [MongoDB](https://account.mongodb.com/account/login?n=https%3A%2F%2Fcloud.mongodb.com%2Fv2%2F6602489b8deef30f1bbf8904&nextHash=%23security%2Fnetwork%2FaccessList&signedOut=true)
+
+# Getting Started
+
+## Pre-requisites
+- Install latest NodeJS version
+- Get Free API Key from RapidAPI for the below URL
+  - https://api-football-v1.p.rapidapi.com/v3/fixtures
+
+## Installation
+- Clone the repository
+```
+git clone https://github.com/github_username/repo_name.git
+```
+- Install dependencies
+```
+cd <project_name>
+npm install
+```
+- Enter your API in env.js

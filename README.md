@@ -26,4 +26,17 @@ git clone https://github.com/github_username/repo_name.git
 cd <project_name>
 npm install
 ```
-- Enter your API in env.js
+- Enter your API in env file in backend/sports-party/match-service/src
+```
+const RAPIDAPI_KEY = 'ENTER YOUR API'
+```
+- Build and run backend
+```
+npm run start:all
+```
+- Build and run frontend
+```
+npm start
+```
+- Navigate to `http://localhost:3000`
+

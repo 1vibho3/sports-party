@@ -6,7 +6,8 @@ const {createUserProfileController,
     deleteFriendController,
     getUserFriendsController,
     addPartyController,
-    getUserPartiesController} = require('../controllers/userProfileController');
+    getUserPartiesController,
+    deletePartyController} = require('../controllers/userProfileController');
 const authenticateUser = require('../../../Middleware/authenticate');
 
 const router = express.Router();
@@ -15,12 +16,13 @@ const router = express.Router();
 
 router.post('/createUserProfile', createUserProfileController);
 router.get('/getUsers', authenticateUser, getUserController);
-router.get('/getUser/:userId',authenticateUser, getUserProfileController);
+router.get('/getUser/:userId', getUserProfileController);
 router.post('/addFriend', addFriendController);
 router.post('/deleteFriend', deleteFriendController);
 router.get('/getUserFriends/:userId', getUserFriendsController);
 router.post('/addParty', addPartyController);
-router.get('/getParty/:userId', getUserPartiesController)
+router.get('/getParty/:userId', getUserPartiesController);
+router.patch('/deleteParty', deletePartyController)
 
 module.exports = router;
 

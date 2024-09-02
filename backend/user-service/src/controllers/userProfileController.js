@@ -5,7 +5,8 @@ const {createUserProfileService,
     deleteFriendService,
     getUserFriendsService,
     addPartyService,
-    getUserPartiesService} = require('../services/userProfileService');
+    getUserPartiesService,
+    deletePartyService} = require('../services/userProfileService');
 
 exports.createUserProfileController = async (req, res) => {
     try{
@@ -45,7 +46,6 @@ exports.getUserProfileController = async (req, res) => {
 exports.addFriendController = async (req, res) => {
     try{
         const data = req.body;
-        console.log(data);
         const addFriendData = await addFriendService(data);
         res.status(200).json({success: true, data: addFriendData});
     }
@@ -68,7 +68,7 @@ exports.addPartyController = async (req, res) => {
 
 exports.deleteFriendController = async (req, res) => {
     try{
-        const data = req.body.data;
+        const data = req.body;
         console.log(data);
         const addFriendData = await deleteFriendService(data);
         res.status(200).json({success: true, data: addFriendData});
@@ -98,3 +98,14 @@ exports.getUserPartiesController = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error fetching user parties' });
     }
 }
+
+exports.deletePartyController = async (req, res) => {
+    try{
+        const data = req.body
+        const parties = await deletePartyService(data);
+        res.status(200).json({ success: true, data: parties });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting party' });
+    }
+}
+

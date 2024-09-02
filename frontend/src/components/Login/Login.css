@@ -1,0 +1,136 @@
+  
+  /* Specific styles for the login page */
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #dddddd;
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
+  }
+  
+  /* Gradient animation */
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .login-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    width: 80px; /* Adjust size as needed */
+    height: 80px; /* Adjust size as needed */
+    margin-bottom: 10px;
+  }
+  
+  .login-heading {
+    color: #37003c;
+    font-size: 24px;
+    margin-top: 30px;
+  }
+  
+  /* Container styles */
+  .login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Error message styles */
+  .login-error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  /* Form styles */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 70px;
+  }
+  
+  /* Label styles */
+  .login-label {
+    margin-bottom: 15px;
+    color: #555;
+  }
+  
+  /* Input styles */
+  .login-input {
+    width: 100%;
+    padding: 8px;
+    height: 40px;
+    margin-top: 5px;
+    border: 1px solid #312132;
+    border-radius: 50px;
+    box-sizing: border-box;
+  }
+
+  .login-input:hover {
+    border: 1px solid #be14ce;
+  }
+
+  .login-input:focus-visible {
+    border: 1px solid #be14ce;
+  }
+  
+  /* Button styles */
+  /* Button styles */
+.login-button {
+    background-color: transparent; 
+    color: #312132; /* Text color */
+    border: 1px solid #312132;
+    border-radius: 50px;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #be14ce; 
+    border: 1px solid #be14ce;
+    color: white; 
+  }
+
+  .create-account-link {
+    margin-top: 120px;
+    text-align: center;
+  }
+  
+  .create-account-link p {
+    color: #555;
+    font-size: 14px;
+  }
+  
+  .create-account-link a {
+    color: #312132;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .create-account-link a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  

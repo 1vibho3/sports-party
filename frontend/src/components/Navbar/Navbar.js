@@ -1,9 +1,13 @@
 // components/Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css'; // Optional: if you want to add custom styles
+import SearchBar from '../SearchBar/SearchBar';
+import './Navbar.css';
+import Notification from '../Notification/Notification';
+import DisplayFriendRequests from '../DisplayFriendRequests/DisplayFriendRequests';
 
-const Navbar = () => {
+const Navbar = ({onSearch}) => {
+    const loggedInUserId = sessionStorage.getItem('userID');
     return (
         <nav className="navbar">
             <ul className="navbar-list">
@@ -11,13 +15,19 @@ const Navbar = () => {
                     <Link to="/getMatch">Matches</Link>
                 </li>
                 <li className="navbar-item">
-                    <Link to="/createParty">Party</Link>
+                    <Link to={`/getUserProfile/${loggedInUserId}`}>My Profile</Link>
                 </li>
-                <li className="navbar-item">
-                    <Link to="/searchUsers">Friends</Link>
+                <div className="navbar-search">
+                    <SearchBar onSearch={onSearch} />
+                </div>
+                <li>
+                    <DisplayFriendRequests />
                 </li>
-                <li className="navbar-item">
-                    <Link to="/getFriendRequests">Requests</Link>
+                <li><Notification /></li>
+                <li className="navbar-item logout">
+                    <Link to="/" onClick={()=> {
+                        sessionStorage.clear();
+                    }}>Logout</Link>
                 </li>
             </ul>
         </nav>

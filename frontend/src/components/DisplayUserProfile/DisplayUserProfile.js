@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../../axios/axios'; // Adjust the path as per your project structure
 import Navbar from '../Navbar/Navbar';
+import './DisplayUserProfile.css'
 
 const UserProfile = () => {
     const { userId } = useParams();
@@ -36,6 +37,7 @@ const UserProfile = () => {
         };
 
         fetchUserProfile();
+        
     }, [userId]);
 
     const fetchParties = async () => {
@@ -69,6 +71,7 @@ const UserProfile = () => {
         try {
             if (requestStatus === "Send Request") {
                 const payload = { requestFromUserId: loggedInUserId, requestToUserId: userId };
+                console.log(payload);
                 const response = await axios.post(`/friends/sendRequest/`, payload);
                 setRequestStatus("pending");
             } else if (requestStatus === "pending") {
@@ -89,6 +92,22 @@ const UserProfile = () => {
         navigate(`/getUserProfile/${userId}`);
     };
 
+    const handleCancelonClick = async (partyId) => {
+        try{
+            await axios.delete(`/party/deleteParty/${partyId}`);
+            fetchParties();
+        }
+        catch(error){
+            console.error('Error Cancelling Party', error);
+        }
+        
+    };
+
+    const formatDate = (date) => {
+        const options = { day: '2-digit', month: 'long', year: 'numeric' };
+        return new Date(date).toLocaleDateString('en-GB', options);
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -101,31 +120,44 @@ const UserProfile = () => {
         <div>
             <Navbar />
             {userProfile ? (
-                <div>
-                    <h1>{userProfile.username}</h1>
-                    <p>User ID: {userProfile.userId}</p>
-                    <p>Friends</p>
-                    <ul>
-                        {userProfile.friends.length > 0 ? userProfile.friends.map((friend, index) => (
-                            <li key={index} onClick={() => handleSuggestionClick(friend.userId)}>
-                                {friend.username}
-                            </li>
-                        )) : 'No friends listed'}
-                    </ul>
-                    <p>Parties</p>
-                    <ul>
-                        {parties.length > 0 ? parties.map((party, index) => (
-                            <li key={index}>
-                                <p>Party Name: {party.partyName}</p>
-                                <p>Date: {party.partyDate}</p>
-                                <p>Location: {party.partyLocation}</p>
-                                <p>Host: {party.hostUserId}</p>
-                            </li>
-                        )) : 'No parties listed'}
-                    </ul>
-                    {(userProfile.userId !== loggedInUserId &&
-                        <button type="button" onClick={handleRequestClick}>{requestStatus}</button>
-                    )}
+                <div className="container">
+                    <div className="user-profile">
+                        <h1>{userProfile.username}</h1>
+                        {(userProfile.userId !== loggedInUserId &&
+                            <button className ="request-button" type="button" onClick={handleRequestClick}>{requestStatus}</button>
+                        )}
+                    </div>
+                    <div className="parties">
+                        <p>My Watch Parties</p>
+                        <ul>
+                            {parties.length > 0 ? parties.map((party, index) => (
+                                <li key={index}>
+                                    <p>Hosted by {party.hostUserId == loggedInUserId ? "you" : (party.hostUserName)}</p>
+                                    <p>{party.partyName}</p>
+                                    <p>{formatDate(party.partyDate)}</p>
+                                    <p>Location {party.partyLocation}</p>
+                                    { party.hostUserId === loggedInUserId ? (
+                                        <button className ="party-action-button" onClick={() => handleCancelonClick(party._id)}>Cancel</button>
+                                    ) : (
+                                        <div>
+                                            <button className ="party-action-button" onClick={() => handleCancelonClick(party._id)}>Coming</button>
+                                            <button className ="party-action-button" onClick={() => handleCancelonClick(party._id)}>Not Coming</button>
+                                        </div>
+                                    ) }
+                                </li>
+                            )) : 'No parties listed'}
+                        </ul>
+                    </div>
+                    <div className="friends-list">
+                        <p>Friends</p>
+                        <ul>
+                            {userProfile.friends.length > 0 ? userProfile.friends.map((friend, index) => (
+                                <li key={index} onClick={() => handleSuggestionClick(friend.userId)}>
+                                    {friend.username}
+                                </li>
+                            )) : 'No friends listed'}
+                        </ul>
+                    </div>
                 </div>
             ) : (
                 <p>User profile not found.</p>
